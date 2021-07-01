@@ -1,18 +1,21 @@
 import React from 'react';
 
+import { NavigationContainer } from '@react-navigation/native';
+
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import ProductsReducer from './src/store/reducers/Products';
 import CartReducer from './src/store/reducers/Cart';
 import orderReducer from './src/store/reducers/order';
+
 import ShopNavigation from './src/routes/ShopNavigation';
 
-import { 
-  useFonts, 
-  OpenSans_400Regular, 
-  OpenSans_600SemiBold, 
-  OpenSans_700Bold 
+import {
+  useFonts,
+  OpenSans_400Regular,
+  OpenSans_600SemiBold,
+  OpenSans_700Bold
 } from '@expo-google-fonts/open-sans';
 
 import AppLoading from 'expo-app-loading';
@@ -36,11 +39,13 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  
+
   return (
+    <NavigationContainer>
       <Provider store={store}>
         <ShopNavigation />
-      </Provider> 
+      </Provider>
+    </NavigationContainer>
   );
 }
 
