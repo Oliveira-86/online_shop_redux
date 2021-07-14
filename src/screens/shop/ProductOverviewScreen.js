@@ -8,6 +8,9 @@ import ProductItem from '../../components/shop/ProductItem';
 
 import colors from '../../styles/colors';
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../../components/UI/HeaderButton';
+
 const ProductOverviewScreen = (props) => {
 
     const products = useSelector(state => state.products.availableProducts);
@@ -17,8 +20,8 @@ const ProductOverviewScreen = (props) => {
         props.navigation.navigate('ProductDetails', {
             productId: id,
             productTitle: title
-        })
-    }
+        });
+    };
 
     return <FlatList
         data={products}
@@ -29,14 +32,14 @@ const ProductOverviewScreen = (props) => {
                 image={itemData.item.imgUrl}
                 price={itemData.item.price}
                 onSelected={() => {
-                    selectItemHandler(itemData.item.productId, itemData.item.productTitle);
+                    selectItemHandler(itemData.item.id, itemData.item.title);
                 }}
             >
                 <Button
                     color={colors.primary}
                     title="View Details"
                     onPress={() => {
-                        selectItemHandler(itemData.item.productId, itemData.item.productTitle);
+                        selectItemHandler(itemData.item.id, itemData.item.title);
                     }}
                 />
 
@@ -51,6 +54,38 @@ const ProductOverviewScreen = (props) => {
         )}
     />
 
+};
+
+export const screenOptions = navData => {
+    return {
+        headerTitle: 'All Products',
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Menu"
+                        iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                        onPress={() => {
+                            navData.navigation.toggleDrawer();
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        },
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Cart"
+                        iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                        onPress={() => {
+                            navData.navigation.navigate('Cart');
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        }
+    };
 };
 
 export default ProductOverviewScreen;

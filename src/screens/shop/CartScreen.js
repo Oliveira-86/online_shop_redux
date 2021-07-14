@@ -10,6 +10,9 @@ import * as ordersActions from '../../store/actions/orders';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../../components/UI/HeaderButton';
+
 const CartScreen = () => {
 
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -62,6 +65,38 @@ const CartScreen = () => {
         </View>
     );
 };
+
+export const screenOptions = navData => {
+    return {
+        title: 'Your Cart',
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Cart"
+                        iconName={Platform.OS === 'android' ? 'md-arrow-back' : 'ios-arrow-back'}
+                        onPress={() => {
+                            navData.navigation.goBack();
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        },
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Cart"
+                        iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                        onPress={() => {
+                            navData.navigation.navigate('Cart');
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        }
+    }
+}
 
 export default CartScreen;
 

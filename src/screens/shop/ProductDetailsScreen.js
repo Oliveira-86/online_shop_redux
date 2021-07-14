@@ -7,9 +7,14 @@ import * as cartAction from '../../store/actions/Cart';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../../components/UI/HeaderButton';
+
 const ProductDetailsScreen = (props) => {
 
     const productId = props.route.params.productId;
+    console.log(productId)
+    
     const selectedProduct = useSelector(state => 
         state.products.availableProducts.find(prod => prod.id === productId)
     );
@@ -32,6 +37,12 @@ const ProductDetailsScreen = (props) => {
         </ScrollView>
     );
 };
+
+export const screenOptions = navData => {  
+    return {
+        title: navData.route.params.productTitle,
+    }
+}
 
 export default ProductDetailsScreen;
 

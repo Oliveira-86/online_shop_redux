@@ -1,9 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import OrderItem from '../../components/shop/OrderItem';
+
+
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../../components/UI/HeaderButton';
 
 const OrderScreen = (props) => {
 
@@ -22,8 +26,25 @@ const OrderScreen = (props) => {
             )}
         />
     )
-}
+};
 
-export default OrderScreen
+export const screenOptions = navData => {
+    return {
+        headerTitle: 'Your Orders',
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Cart"
+                        iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                        onPress={() => {
+                            navData.navigation.toggleDrawer();
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        },
+    };
+};
 
-const styles = StyleSheet.create({})
+export default OrderScreen;

@@ -8,6 +8,9 @@ import ProductItem from '../../components/shop/ProductItem';
 
 import colors from '../../styles/colors';
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../../components/UI/HeaderButton';
+
 const UserProductsScreen = (props) => {
 
     const userProducts = useSelector(state => state.products.userProducts);
@@ -50,5 +53,37 @@ const UserProductsScreen = (props) => {
         />
     );
 };
+
+export const screenOptions = navData => {
+    return {
+        headerTitle: 'Your Products',
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Cart"
+                        iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                        onPress={() => {
+                            navData.navigation.toggleDrawer();
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        },
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title="Add"
+                        iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+                        onPress={() => {
+                            navData.navigation.navigate('EditProduct');
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        }
+    }
+}
 
 export default UserProductsScreen;

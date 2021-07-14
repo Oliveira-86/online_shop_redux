@@ -5,7 +5,7 @@ import { DELETE_PRODUCT } from '../actions/Products';
 
 const initialState = {
     items: {},
-    totalAmount: 0
+    totalAmount: 0,
 };
 
 export default (state = initialState, action) => {

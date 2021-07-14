@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
-
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+
+import AppNavigator from './src/routes/AppNavigator';
 
 import ProductsReducer from './src/store/reducers/Products';
 import CartReducer from './src/store/reducers/Cart';
@@ -41,11 +41,9 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
       <Provider store={store}>
-        <ShopNavigation />
+        <AppNavigator />
       </Provider>
-    </NavigationContainer>
   );
 }
 
