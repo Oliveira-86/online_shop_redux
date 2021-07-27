@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollView, StyleSheet, Text, View, TextInput, Platform } from 'react-native';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as productsActions from '../../store/actions/Products';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
@@ -12,15 +13,25 @@ const EditProductScreen = (props) => {
     const prodId = props.route.params ? props.route.params.productId : null;
     const editProduct = useSelector(state =>
         state.products.userProducts.find(prod => prod.id === prodId));
+    const dispatch = useDispatch();
 
     const [title, setTitle] = useState(editProduct ? editProduct.title : '');
-    const [imageUrl, setImageUrl] = useState(editProduct ? editProduct.imgUrl : '');
+    const [imgUrl, setImgUrl] = useState(editProduct ? editProduct.imgUrl : '');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState(editProduct ? editProduct.description : '');
 
     const submitHandler = useCallback(() => {
-        console.log("Submitting!!")
-    });
+        if (editProduct) {
+            dispatch(
+                productsActions.updateProduct(prodId, title, description, imgUrl)
+            );
+        } else {
+            dispatch(
+                productsActions.createProduct(title, description, imgUrl, +price)
+            );
+        }
+        props.navigation.goBack();
+    }, [dispatch, title, imgUrl, description, price]);
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -51,8 +62,8 @@ const EditProductScreen = (props) => {
                     <Text style={styles.label}>Image URL</Text>
                     <TextInput
                         style={styles.input}
-                        value={imageUrl}
-                        onChangeText={text => setImageUrl(text)}
+                        value={imgUrl}
+                        onChangeText={text => setImgUrl(text)}
                     />
                 </View>
                 {editProduct ? null : (

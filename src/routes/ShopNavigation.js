@@ -20,7 +20,7 @@ import EditProductScreen, {
 } from '../screens/user/EditProductScreen';
 import UserProductScreen, {
     screenOptions as UserScreensOptions
-} from '../screens/user/EditProductScreen';
+} from '../screens/user/UserProductsScreen';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';

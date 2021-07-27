@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 import fonts from '../../styles/fonts';
+import Card from '../UI/Card';
 
 const ProductItem = (props) => {
     return (
@@ -9,7 +10,7 @@ const ProductItem = (props) => {
             onPress={props.onSelected}
             activeOpacity={0.7}
         >
-            <View style={styles.container}>
+            <Card style={styles.container}>
                 <Image
                     style={styles.image}
                     source={{ uri: props.image }}
@@ -23,8 +24,9 @@ const ProductItem = (props) => {
                 <View style={styles.action}>
                     {props.children}
                 </View>
-            </View>
+            </Card>
         </TouchableOpacity>
+
     )
 }
 
@@ -32,15 +34,7 @@ export default ProductItem
 
 const styles = StyleSheet.create({
     container: {
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-
-        elevation: 10,
-
         borderRadius: 10,
-        backgroundColor: 'white',
         height: 300,
         margin: 20
     },

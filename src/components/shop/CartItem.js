@@ -1,13 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 
+import Card from '../UI/Card';
+
 import fonts from '../../styles/fonts';
 
 import { Ionicons } from '@expo/vector-icons';
 
 const CartItem = (props) => {
     return (
-        <View style={styles.container}>
+        <Card style={styles.container}>
             <View style={styles.itemData}>
                 <Text style={styles.quantity}>{props.quantity}  </Text>
                 <Text style={styles.mainText} numberOfLines={1}>{props.title}</Text>
@@ -25,7 +27,7 @@ const CartItem = (props) => {
                     />
                 </TouchableOpacity>}
             </View>
-        </View>
+        </Card>
     );
 };
 
@@ -34,19 +36,11 @@ export default CartItem;
 const styles = StyleSheet.create({
     container: {
         padding: 10,
-        backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginHorizontal: 20,
         marginVertical: 5,
         borderRadius: 5,
-
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-
-        elevation: 10,
     },
 
     itemData: {
