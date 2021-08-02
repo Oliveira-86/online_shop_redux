@@ -1,24 +1,43 @@
-import React from 'react'
-import { FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { FlatList, ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as ordersActions from '../../store/actions/orders'
 
 import OrderItem from '../../components/shop/OrderItem';
 
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
+import colors from '../../styles/colors';
 
-const OrderScreen = (props) => {
+const OrderScreen = () => {
+    const [isLoading, setIsLoading] = useState(false);
 
-    const orders = useSelector(state => state.orders.orders)
+    const orders = useSelector(state => state.orders.orders);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setIsLoading(true);
+        dispatch(ordersActions.fetchOrders()).then(() => {
+            setIsLoading(false);
+        });
+    }, [dispatch]);
+
+    if (isLoading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+        );
+    }
 
     return (
-        <FlatList 
+        <FlatList
             data={orders}
             keyExtractor={(item) => item.id}
             renderItem={(itemData) => (
-                <OrderItem 
+                <OrderItem
                     amount={itemData.item.totalAmount}
                     date={itemData.item.readableDate}
                     items={itemData.item.items}
@@ -48,3 +67,11 @@ export const screenOptions = navData => {
 };
 
 export default OrderScreen;
+
+const styles = StyleSheet.create({
+    centered: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  });

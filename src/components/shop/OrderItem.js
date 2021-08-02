@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 
 import CartItem from './CartItem';
 
-import colors from '../../styles/colors';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import fonts from '../../styles/fonts';
 
 const OrderItem = (props) => {
@@ -15,22 +16,30 @@ const OrderItem = (props) => {
                 <Text style={styles.totalAmount}>${props.amount.toFixed(2)}</Text>
                 <Text style={styles.date}>{props.date}</Text>
             </View>
-            <Button 
-                color={colors.primary} 
-                title={showDetails ? 'Hide Details' : "Show Details"} 
-                onPress={() => {
-                    setShowDetails(!showDetails)
-                }}
-            />
+            <LinearGradient
+                colors={['#ff0084', '#33001b']}
+                style={{ flex: 1 }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.headerStyle}
+            >
+                <Button
+                    color='none'
+                    title={showDetails ? 'Hide Details' : "Show Details"}
+                    onPress={() => {
+                        setShowDetails(!showDetails)
+                    }}
+                />
+            </LinearGradient>
             {showDetails && (
                 <View style={{ width: '100%', marginTop: 15 }}>
-                    {props.items.map(cartItem => 
-                    <CartItem 
-                        key={cartItem.productId}
-                        quantity={cartItem.quantity}
-                        amount={cartItem.sum}
-                        title={cartItem.productTitle}
-                    />)}
+                    {props.items.map(cartItem =>
+                        <CartItem
+                            key={cartItem.productId}
+                            quantity={cartItem.quantity}
+                            amount={cartItem.sum}
+                            title={cartItem.productTitle}
+                        />)}
                 </View>
             )}
         </View>
@@ -72,4 +81,9 @@ const styles = StyleSheet.create({
         fontFamily: fonts.regular,
         color: '#888'
     },
+
+    headerStyle: {
+        alignItems: 'center',
+        borderRadius: 5,
+    }
 });

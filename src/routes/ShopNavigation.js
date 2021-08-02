@@ -1,12 +1,14 @@
 import React from 'react';
-import { Platform, View, Text, SafeAreaView } from 'react-native';
+import { Platform, View, StyleSheet } from 'react-native';
 
 import ProductOverviewScreen, {
     screenOptions as ProductOverviewScreenOptions
 } from '../screens/shop/ProductOverviewScreen';
+
 import ProductDetailsScreen, {
     screenOptions as ProductDetailsScreenOptions
 } from '../screens/shop/ProductDetailsScreen';
+
 import CartScreen, {
     screenOptions as CartScreenOptions
 } from '../screens/shop/CartScreen';
@@ -18,36 +20,46 @@ import OrdersScreens, {
 import EditProductScreen, {
     screenOptions as EditScreensOptions
 } from '../screens/user/EditProductScreen';
+
 import UserProductScreen, {
     screenOptions as UserScreensOptions
 } from '../screens/user/UserProductsScreen';
+
+import AuthScreen, {
+    screenOptions as AuthScreenOptions
+} from '../screens/user/AuthScreen';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-const defaultNavOptions = {
-    headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? colors.primary : ''
-    },
-    headerTintColor: Platform.OS === 'android' ? 'white' : colors.primary,
+const navigationOptions = {
+    headerBackground: () => (
+        <LinearGradient
+            colors={['#ff0084', '#33001b']}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+        />
+    ),
     headerTitleStyle: {
+        color: '#fff',
         fontFamily: fonts.bold
     },
-    headerBackTitleStyle: {
-        fontFamily: fonts.regular
-    }
-};
+    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'    
+}
 
 const ProductsStackNavigator = createStackNavigator();
 
 export const ProductsNavigator = () => {
     return (
-        <ProductsStackNavigator.Navigator screenOptions={defaultNavOptions}>
+        <ProductsStackNavigator.Navigator screenOptions={navigationOptions}>
             <ProductsStackNavigator.Screen
                 name="ProductOverview"
                 component={ProductOverviewScreen}
@@ -71,7 +83,7 @@ const OrdersStackNavigator = createStackNavigator();
 
 export const OrderNavigator = () => {
     return (
-        <OrdersStackNavigator.Navigator screenOptions={defaultNavOptions}>
+        <OrdersStackNavigator.Navigator screenOptions={navigationOptions}>
             <OrdersStackNavigator.Screen
                 name='Orders'
                 component={OrdersScreens}
@@ -85,7 +97,7 @@ const AdminStackNavigator = createStackNavigator();
 
 export const AdminNavigator = () => {
     return (
-        <AdminStackNavigator.Navigator screenOptions={defaultNavOptions}>
+        <AdminStackNavigator.Navigator screenOptions={navigationOptions}>
             <AdminStackNavigator.Screen
                 name="UserProducts"
                 component={UserProductScreen}
@@ -154,5 +166,12 @@ export const ShopNavigator = () => {
     )
 }
 
+const AuthStackNavigation = createStackNavigator();
 
-
+export const Authnavigation = () => {
+    return (
+        <AuthStackNavigation.Navigator screenOptions={navigationOptions}>
+            <AdminStackNavigator.Screen name='Auth' component={AuthScreen} options={AuthScreenOptions} />
+        </AuthStackNavigation.Navigator>
+    )
+}

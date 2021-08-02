@@ -14,7 +14,7 @@ const CartItem = (props) => {
                 <Text style={styles.quantity}>{props.quantity}  </Text>
                 <Text style={styles.mainText} numberOfLines={1}>{props.title}</Text>
             </View>
-            <View style={styles.itemData}>
+            <View style={[styles.itemData, { width: '50%', justifyContent: 'space-evenly' }]}>
                 <Text style={styles.mainText}>${props.amount.toFixed(2)}</Text>
                 {props.deletable && <TouchableOpacity
                     onPress={props.onRemove}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         marginHorizontal: 20,
         marginVertical: 5,
         borderRadius: 5,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     itemData: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: 100
+        justifyContent: 'space-between',
     },
 
     quantity: {
@@ -58,10 +58,9 @@ const styles = StyleSheet.create({
     mainText: {
         fontFamily: fonts.bold,
         fontSize: 16,
-        color: 'black'
+        color: 'black',
     },
 
     deleteButton: {
-        marginLeft: 20
     }
 });
