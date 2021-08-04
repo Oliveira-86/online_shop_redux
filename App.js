@@ -9,6 +9,7 @@ import AppNavigator from './src/routes/AppNavigator';
 import ProductsReducer from './src/store/reducers/Products';
 import CartReducer from './src/store/reducers/Cart';
 import orderReducer from './src/store/reducers/order';
+import authReducer from './src/store/reducers/Auth';
 
 import ShopNavigation from './src/routes/ShopNavigation';
 
@@ -24,7 +25,8 @@ import AppLoading from 'expo-app-loading';
 const rootReducer = combineReducers({
   products: ProductsReducer,
   cart: CartReducer,
-  orders: orderReducer
+  orders: orderReducer,
+  auth: authReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

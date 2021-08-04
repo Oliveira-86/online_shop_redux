@@ -6,7 +6,8 @@ import {
     View,
     StyleSheet,
     Text,
-    Platform
+    Platform,
+    TouchableOpacity
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,6 +20,8 @@ import colors from '../../styles/colors';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
+import { LinearGradient } from 'expo-linear-gradient';
+import ButtonGradient from '../../components/UI/ButtonGradient';
 
 const ProductOverviewScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +42,14 @@ const ProductOverviewScreen = (props) => {
     }, [dispatch, setIsLoading, setError]);
 
     useEffect(() => {
-        props.navigation.addListener(
+        const unsubscribe = props.navigation.addListener(
             'focus',
             loadProducts
         );
+
+        return () => {
+            unsubscribe();
+        }
     }, [loadProducts]);
 
     useEffect(() => {
@@ -103,20 +110,20 @@ const ProductOverviewScreen = (props) => {
                         selectItemHandler(itemData.item.id, itemData.item.title);
                     }}
                 >
-                    <Button
-                        color={colors.primary}
-                        title="View Details"
+
+                    <ButtonGradient
                         onPress={() => {
                             selectItemHandler(itemData.item.id, itemData.item.title);
                         }}
+                        text="View Details"
+                        style={styles.button}
                     />
-
-                    <Button
-                        color={colors.primary}
-                        title="To Cart"
+                    <ButtonGradient
                         onPress={() => {
                             dispatch(cartActions.addToCart(itemData.item));
                         }}
+                        text="To Cart"
+                        style={styles.button}
                     />
                 </ProductItem>
             )}
@@ -164,6 +171,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    button: {
+        width: '100%',
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        padding: 10
     }
 })
 

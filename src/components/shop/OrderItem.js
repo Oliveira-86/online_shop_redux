@@ -6,6 +6,8 @@ import CartItem from './CartItem';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import fonts from '../../styles/fonts';
+import colors from '../../styles/colors';
+import ButtonGradient from '../UI/ButtonGradient';
 
 const OrderItem = (props) => {
     const [showDetails, setShowDetails] = useState(false);
@@ -16,21 +18,14 @@ const OrderItem = (props) => {
                 <Text style={styles.totalAmount}>${props.amount.toFixed(2)}</Text>
                 <Text style={styles.date}>{props.date}</Text>
             </View>
-            <LinearGradient
-                colors={['#ff0084', '#33001b']}
-                style={{ flex: 1 }}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.headerStyle}
-            >
-                <Button
-                    color='none'
-                    title={showDetails ? 'Hide Details' : "Show Details"}
-                    onPress={() => {
-                        setShowDetails(!showDetails)
-                    }}
-                />
-            </LinearGradient>
+
+            <ButtonGradient
+                style={styles.button}
+                text={showDetails ? 'Hide Details' : "Show Details"}
+                onPress={() => {
+                    setShowDetails(!showDetails)
+                }}
+            />
             {showDetails && (
                 <View style={{ width: '100%', marginTop: 15 }}>
                     {props.items.map(cartItem =>
@@ -82,8 +77,11 @@ const styles = StyleSheet.create({
         color: '#888'
     },
 
-    headerStyle: {
+    button: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 5,
+        paddingVertical: 5,
+        borderRadius: 5
     }
 });

@@ -1,18 +1,18 @@
-import React, { 
-    useState, 
-    useEffect, 
-    useCallback, 
-    useReducer 
+import React, {
+    useState,
+    useEffect,
+    useCallback,
+    useReducer
 } from 'react';
 
-import { 
-    ScrollView, 
-    StyleSheet, 
-    View, 
-    Platform, 
-    Alert, 
+import {
+    ScrollView,
+    StyleSheet,
+    View,
+    Platform,
+    Alert,
     KeyboardAvoidingView,
-    ActivityIndicator 
+    ActivityIndicator
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -117,15 +117,15 @@ const EditProductScreen = (props) => {
         setIsLoading(false);
     }, [dispatch, prodId, formState]);
 
-    const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
-
-        dispatchFormState({
-            type: FORM_INPUT_REDUCER,
-            value: inputValue,
-            isValid: inputValidity,
-            input: inputIdentifier
-        });
-    }, [dispatchFormState]);
+    const inputChangeHandler = useCallback(
+        (inputIdentifier, inputValue, inputValidity) => {
+            dispatchFormState({
+                type: FORM_INPUT_REDUCER,
+                value: inputValue,
+                isValid: inputValidity,
+                input: inputIdentifier
+            });
+        }, [dispatchFormState]);
 
     useEffect(() => {
         props.navigation.setOptions({

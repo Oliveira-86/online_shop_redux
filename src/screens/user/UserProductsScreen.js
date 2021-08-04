@@ -1,15 +1,15 @@
 import React from 'react';
-import { FlatList, Button, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as productsActions from '../../store/actions/Products';
 
 import ProductItem from '../../components/shop/ProductItem';
 
-import colors from '../../styles/colors';
-
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
+
+import ButtonGradient from '../../components/UI/ButtonGradient';
 
 const UserProductsScreen = (props) => {
 
@@ -18,7 +18,7 @@ const UserProductsScreen = (props) => {
 
     const editProductHandler = (id) => {
         props.navigation.navigate('EditProducts', { productId: id });
-    }
+    };
 
     const deleteHandler = (id) => {
         Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
@@ -36,6 +36,16 @@ const UserProductsScreen = (props) => {
         ]);
     };
 
+    if (userProducts.length === 0) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text>
+                    No products found, maybe start creating some?
+                </Text>
+            </View>
+        );
+    };
+
     return (
         <FlatList
             data={userProducts}
@@ -49,7 +59,19 @@ const UserProductsScreen = (props) => {
                         editProductHandler(itemData.item.id);
                     }}
                 >
-                    <Button
+                    <ButtonGradient
+                        onPress={() => {
+                            editProductHandler(itemData.item.id);
+                        }}
+                        text="Edit"
+                        style={styles.button}
+                    />
+                    <ButtonGradient
+                        onPress={deleteHandler.bind(this, itemData.item.id)}
+                        text="Delete"
+                        style={styles.button}
+                    />
+                    {/* <Button
                         color={colors.primary}
                         title="Edit"
                         onPress={() => {
@@ -61,7 +83,7 @@ const UserProductsScreen = (props) => {
                         color={colors.primary}
                         title="Delete"
                         onPress={deleteHandler.bind(this, itemData.item.id)}
-                    />
+                    /> */}
                 </ProductItem>
             )}
         />
@@ -97,7 +119,18 @@ export const screenOptions = navData => {
                 </HeaderButtons>
             )
         }
-    }
-}
+    };
+};
 
 export default UserProductsScreen;
+
+const styles = StyleSheet.create({
+    button: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5
+    }
+});

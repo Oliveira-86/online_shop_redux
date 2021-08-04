@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View, StyleSheet } from 'react-native';
+import { Platform, View, SafeAreaView, Button, } from 'react-native';
 
 import ProductOverviewScreen, {
     screenOptions as ProductOverviewScreenOptions
@@ -30,7 +30,10 @@ import AuthScreen, {
 } from '../screens/user/AuthScreen';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
+
+import { useDispatch } from 'react-redux';
+import * as authActions from '../store/actions/Auth';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -38,11 +41,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import ButtonGradient from '../components/UI/ButtonGradient';
 
 const navigationOptions = {
     headerBackground: () => (
         <LinearGradient
-            colors={['#ff0084', '#33001b']}
+            colors={[colors.primary, colors.accent]}
             style={{ flex: 1 }}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -52,7 +56,20 @@ const navigationOptions = {
         color: '#fff',
         fontFamily: fonts.bold
     },
-    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'    
+    headerTintColor: Platform.OS === 'android' ? 'white' : 'white'
+}
+
+const AuthStackNavigation = createStackNavigator();
+
+export const AuthNavigation = () => {
+    return (
+        <AuthStackNavigation.Navigator headerMode="none">
+            <AdminStackNavigator.Screen
+                name='Auth'
+                component={AuthScreen}
+            />
+        </AuthStackNavigation.Navigator>
+    )
 }
 
 const ProductsStackNavigator = createStackNavigator();
@@ -115,13 +132,40 @@ export const AdminNavigator = () => {
 const ShopDrawerNavigator = createDrawerNavigator();
 
 export const ShopNavigator = () => {
+    const dispatch = useDispatch();
+
     return (
         <ShopDrawerNavigator.Navigator
             drawerContentOptions={{
                 activeTintColor: colors.primary
             }}
+            drawerContent={props => {
+                return (
+                    <View style={{ flex: 1, paddingVertical: 40, }}>
+                        <SafeAreaView
+                            forceInset={{ top: 'always', horizontal: 'never' }}
+                            style={{ flex: 1 }}
+                        >
+                            <DrawerItemList {...props} />
+                            <View style={{ position: 'absolute', width: '100%', bottom: 0 }}>
+                                <ButtonGradient
+                                    onPress={() => {
+                                        dispatch(authActions.logout());
+                                        // props.navigation.navigate('Auth');
+                                    }}
+                                    text="Logout"
+                                    style={{
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        paddingVertical: 5,
+                                    }}
+                                />
+                            </View>
+                        </SafeAreaView>
+                    </View>
+                );
+            }}
         >
-
 
             <ShopDrawerNavigator.Screen
                 name="Products"
@@ -166,12 +210,3 @@ export const ShopNavigator = () => {
     )
 }
 
-const AuthStackNavigation = createStackNavigator();
-
-export const Authnavigation = () => {
-    return (
-        <AuthStackNavigation.Navigator screenOptions={navigationOptions}>
-            <AdminStackNavigator.Screen name='Auth' component={AuthScreen} options={AuthScreenOptions} />
-        </AuthStackNavigation.Navigator>
-    )
-}
