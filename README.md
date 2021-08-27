@@ -1,6 +1,6 @@
 # Online Shop
 
-#### This project was developed to show my skills in React Native. It is a simple e-commerce application where we have login, CRUD products with Firebase.
+#### This project was developed to show my skills in React Native. It is a simple e-commerce application where we have login, CRUD products with and Firebase Services.
 
 ## Project Publications on Linkedin
 
